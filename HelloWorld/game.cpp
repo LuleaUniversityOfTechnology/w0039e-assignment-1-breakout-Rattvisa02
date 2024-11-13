@@ -2,6 +2,7 @@
 #define PLAY_USING_GAMEOBJECT_MANAGER
 #include "Play.h"
 #include "game.h"
+#include "paddle.h"
 
 void SpawnBall() 
 	{
@@ -12,6 +13,8 @@ void SpawnBall()
 
 void StepFrame(float elapsedTime)
 	{
+		DrawPaddle(paddle);
+		updatePaddle(paddle);
 		const std::vector<int> ballIds = Play::CollectGameObjectIDsByType(TYPE_BALL);
 		for (int i=0;i< ballIds.size();i++)
 			{
@@ -24,17 +27,20 @@ void StepFrame(float elapsedTime)
 					{
 						ball.velocity.y = ball.velocity.y*(-1);
 					}
-				// Check for collision with bricks
-				const std::vector<int> brickIds = Play::CollectGameObjectIDsByType(TYPE_BRICK);
-				for (int i = 0; i < brickIds.size(); i++)
-				{
-					GameObject& brick = Play::GetGameObject(brickIds[i]);
-					if (Play::IsColliding(ball, brick))
+				if (isColliding(paddle, ball))
 					{
-						Play::DestroyGameObject(brickIds[i]);
 						ball.velocity.y = ball.velocity.y * (-1);
 					}
-				}
+				const std::vector<int> brickIds = Play::CollectGameObjectIDsByType(TYPE_BRICK);
+				for (int i = 0; i < brickIds.size(); i++)
+					{
+						GameObject& brick = Play::GetGameObject(brickIds[i]);
+						if (Play::IsColliding(ball, brick))
+							{
+								Play::DestroyGameObject(brickIds[i]);
+								ball.velocity.y = ball.velocity.y * (-1);
+							}
+					}
 				Play::DrawObject(ball);
 				Play::UpdateGameObject(ball, elapsedTime);
 			}
