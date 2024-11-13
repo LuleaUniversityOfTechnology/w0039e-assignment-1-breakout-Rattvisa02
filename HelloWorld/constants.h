@@ -1,8 +1,12 @@
-int DISPLAY_WIDTH = 640;
-int DISPLAY_HEIGHT = 360;
-int DISPLAY_SCALE = 2;
+#pragma once
 
-enum objectTypes
-{
-	TYPE_BALL
-};
+const int DISPLAY_WIDTH = 800;
+const int DISPLAY_HEIGHT = 600;
+const int DISPLAY_SCALE = 1;
+const float ballSpeed = 2.5;
+
+enum ObjectType
+	{
+		TYPE_BALL,
+		TYPE_BRICK
+	};
