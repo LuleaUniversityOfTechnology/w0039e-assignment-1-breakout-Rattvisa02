@@ -2,7 +2,6 @@
 #include "paddle.h"
 #include "Play.h"
 #include "constants.h"
-#include <algorithm>
 
 Paddle paddle;
 
@@ -25,7 +24,7 @@ void updatePaddle(Paddle& paddle)
 
 bool isColliding(const Paddle& paddle, const Play::GameObject& obj)
 {
-	const float dx = obj.pos.x - std::max((paddle.pos.x - 50), std::min(obj.pos.x, (paddle.pos.x + 50)));
-	const float dy = obj.pos.y - std::max((paddle.pos.y - 5), std::min(obj.pos.y, (paddle.pos.y + 5)));
-	return (dx * dx + dy * dy) < (obj.radius * obj.radius);
+    const float dx = obj.pos.x - ((paddle.pos.x - 50 > obj.pos.x) ? (paddle.pos.x - 50) : ((paddle.pos.x + 50 < obj.pos.x) ? (paddle.pos.x + 50) : obj.pos.x));
+    const float dy = obj.pos.y - ((paddle.pos.y - 5 > obj.pos.y) ? (paddle.pos.y - 5) : ((paddle.pos.y + 5 < obj.pos.y) ? (paddle.pos.y + 5) : obj.pos.y));
+    return (dx * dx + dy * dy) < (obj.radius * obj.radius);
 }
